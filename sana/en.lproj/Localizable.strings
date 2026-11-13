@@ -197,3 +197,12 @@
 "tasks_progress" = "Task completion";
 "tasks_filter_empty" = "Nothing here just yet";
 "tasks_filter_hint" = "Try another filter to see your tasks.";
+
+"add_course" = "Add course";
+"courses_overview" = "YOUR CAMPUS WEEK";
+"courses_momentum" = "Your subjects, in one place.";
+"courses_study_days" = "Days with courses";
+"courses_day_empty" = "No courses on this day";
+"courses_day_hint" = "Choose another day or add a course.";
+"courses_teacher_missing" = "Teacher not added";
+"courses_room_missing" = "Room not added";

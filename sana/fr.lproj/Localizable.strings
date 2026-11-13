@@ -197,3 +197,12 @@
 "tasks_progress" = "Progression des tâches";
 "tasks_filter_empty" = "Rien ici pour le moment";
 "tasks_filter_hint" = "Choisissez un autre filtre pour voir vos tâches.";
+
+"add_course" = "Ajouter un cours";
+"courses_overview" = "VOTRE SEMAINE";
+"courses_momentum" = "Vos matières, au même endroit.";
+"courses_study_days" = "Jours de cours";
+"courses_day_empty" = "Aucun cours ce jour";
+"courses_day_hint" = "Choisissez un autre jour ou ajoutez un cours.";
+"courses_teacher_missing" = "Enseignant non renseigné";
+"courses_room_missing" = "Salle non renseignée";

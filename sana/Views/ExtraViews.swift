@@ -9,130 +9,101 @@
 import SwiftUI
 
 struct CourseListView: View {
-
     @EnvironmentObject var store: StudyStore
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var showAdd = false
+    @State private var selectedDay = 0
+
+    private var visible: [StudyCourse] {
+        store.courses.filter { selectedDay == 0 || $0.weekday == selectedDay }
+    }
 
     var body: some View {
-        Group {
+        List {
+            CourseOverviewCard(courses: store.courses, loading: store.coursesLoading)
+                .listRowInsets(EdgeInsets(top: 8, leading: 20, bottom: 16, trailing: 20))
+                .listRowSeparator(.hidden)
+                .listRowBackground(Color.clear)
+
+            CourseDayFilter(selection: $selectedDay)
+                .listRowInsets(EdgeInsets(top: 0, leading: 20, bottom: 16, trailing: 20))
+                .listRowSeparator(.hidden)
+                .listRowBackground(Color.clear)
+
             if store.coursesLoading {
-                ProgressView("loading")
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-            } else if store.courses.isEmpty {
-                ContentUnavailableView(
-                    "empty_courses",
-                    systemImage: "books.vertical",
-                    description: Text("empty_courses_hint")
-                )
+                ProgressView(tr("loading"))
+                    .frame(maxWidth: .infinity).padding(40)
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
+            } else if visible.isEmpty {
+                emptyState
+                    .listRowInsets(EdgeInsets(top: 12, leading: 20, bottom: 20, trailing: 20))
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
             } else {
-                List {
-                    ForEach(store.courses) { course in
-                        NavigationLink {
-                            CourseDetailView(course: course)
-                        } label: {
-                            CourseCard(course: course)
-                        }
-                        .listRowSeparator(.hidden)
-                        .listRowBackground(Color.clear)
-                        .listRowInsets(
-                            EdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16)
-                        )
+                ForEach(visible) { course in
+                    NavigationLink { CourseDetailView(course: course) } label: {
+                        CourseCard(course: course)
                     }
-                    .onDelete { offsets in
-                        let selected = offsets.map {
-                            store.courses[$0]
-                        }
-                        Task {
-                            for course in selected {
-                                await store.delete(course: course)
-                            }
-                        }
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
+                    .listRowInsets(EdgeInsets(top: 6, leading: 20, bottom: 6, trailing: 20))
+                    .transition(reduceMotion ? .opacity : .opacity.combined(with: .offset(y: 8)))
+                }
+                .onDelete { offsets in
+                    let selected = offsets.map { visible[$0] }
+                    Task {
+                        for course in selected { await store.delete(course: course) }
                     }
                 }
-                .listStyle(.plain)
-                .scrollContentBackground(.hidden)
-                .background(Color(.systemGroupedBackground))
             }
         }
+        .listStyle(.plain)
+        .scrollContentBackground(.hidden)
+        .animation(reduceMotion ? nil : .spring(response: 0.4, dampingFraction: 0.86), value: selectedDay)
+        .animation(reduceMotion ? nil : .smooth(duration: 0.35), value: store.courses)
         .screenTitle("courses")
         .toolbar {
-            Button {
-                showAdd = true
-            } label: {
-                Image(systemName: "plus")
+            ToolbarItem(placement: .primaryAction) {
+                Button { showAdd = true } label: {
+                    Image(systemName: "plus").font(.headline).foregroundStyle(.white)
+                        .frame(width: 44, height: 44)
+                        .background(LinearGradient(colors: [.indigo, .purple], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: 14))
+                }
+                .buttonStyle(PressableStyle())
+                .accessibilityLabel(tr("add_course"))
             }
         }
         .sheet(isPresented: $showAdd) {
             NavigationStack {
-                CourseFormView(course: .empty)
+                CourseFormView(course: newCourse)
             }
         }
     }
-}
 
-/// Carte d'un cours : pastille colorée, enseignant, salle et jour.
-struct CourseCard: View {
-
-    let course: StudyCourse
-
-    private static let palette: [Color] = [
-        .indigo, .purple, .teal, .orange, .pink, .blue
-    ]
-
-    private var accent: Color {
-        let seed = course.name.unicodeScalars.reduce(0) { $0 + Int($1.value) }
-        return Self.palette[seed % Self.palette.count]
+    private var newCourse: StudyCourse {
+        var course = StudyCourse.empty
+        if selectedDay != 0 { course.weekday = selectedDay }
+        return course
     }
 
-    private var dayKey: String {
-        ["sunday", "monday", "tuesday", "wednesday",
-         "thursday", "friday", "saturday"][(course.weekday - 1 + 7) % 7]
-    }
-
-    var body: some View {
-        HStack(spacing: 14) {
-            Text(String(course.name.prefix(1)).uppercased())
-                .font(.title3.bold())
-                .foregroundStyle(.white)
-                .frame(width: 48, height: 48)
-                .background(
-                    LinearGradient(
-                        colors: [accent, accent.opacity(0.65)],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    ),
-                    in: RoundedRectangle(cornerRadius: 14)
-                )
-
-            VStack(alignment: .leading, spacing: 6) {
-                Text(course.name)
-                    .font(.headline)
-
-                Label(course.teacher, systemImage: "person")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-
-                HStack(spacing: 8) {
-                    Label(course.room, systemImage: "door.left.hand.open")
-                    Text(tr(dayKey))
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 2)
-                        .background(accent.opacity(0.14), in: Capsule())
-                        .foregroundStyle(accent)
-                }
-                .font(.caption.weight(.medium))
-                .foregroundStyle(.secondary)
+    private var emptyState: some View {
+        VStack(spacing: 16) {
+            Image(systemName: "books.vertical")
+                .font(.system(size: 38, weight: .light)).foregroundStyle(.indigo)
+                .frame(width: 80, height: 80)
+                .background(.indigo.opacity(0.08), in: RoundedRectangle(cornerRadius: 26))
+            Text(tr(store.courses.isEmpty ? "empty_courses" : "courses_day_empty")).font(.title3.bold())
+            Text(tr(store.courses.isEmpty ? "empty_courses_hint" : "courses_day_hint"))
+                .font(.subheadline).foregroundStyle(.secondary).multilineTextAlignment(.center)
+            Button { showAdd = true } label: {
+                Label(tr("add_course"), systemImage: "plus").font(.headline)
             }
-
-            Spacer(minLength: 0)
+            .buttonStyle(.borderedProminent).tint(.indigo)
         }
-        .padding(14)
-        .frame(maxWidth: 700)
-        .background(
-            Color(.secondarySystemGroupedBackground),
-            in: RoundedRectangle(cornerRadius: 20)
-        )
-        .shadow(color: .black.opacity(0.06), radius: 10, y: 4)
+        .padding(28).frame(maxWidth: .infinity)
+        .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 24))
+        .modifier(CampusEntrance())
     }
 }
 
@@ -152,10 +123,13 @@ struct CourseDetailView: View {
 
     var body: some View {
         Form {
+            Section {
+                CourseCard(course: current)
+            }.listRowInsets(EdgeInsets()).listRowBackground(Color.clear)
             LabeledContent("name", value: current.name)
             LabeledContent("teacher", value: current.teacher)
             LabeledContent("room", value: current.room)
-            LabeledContent("weekday", value: "\(current.weekday)")
+            LabeledContent("weekday", value: tr(CourseWeekday.key(for: current.weekday)))
 
             Button("edit") {
                 editing = true

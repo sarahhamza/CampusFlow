@@ -168,3 +168,12 @@
 "tasks_progress" = "إنجاز المهام";
 "tasks_filter_empty" = "لا توجد مهام هنا بعد";
 "tasks_filter_hint" = "اختر تصفية أخرى لعرض مهامك.";
+
+"add_course" = "إضافة مادة";
+"courses_overview" = "أسبوعك الجامعي";
+"courses_momentum" = "موادك، في مكان واحد.";
+"courses_study_days" = "أيام الدراسة";
+"courses_day_empty" = "لا توجد مواد في هذا اليوم";
+"courses_day_hint" = "اختر يوماً آخر أو أضف مادة.";
+"courses_teacher_missing" = "لم يُحدَّد المدرّس";
+"courses_room_missing" = "لم تُحدَّد القاعة";

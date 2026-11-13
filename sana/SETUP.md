@@ -8,18 +8,17 @@ Open `../sana.xcodeproj` on a Mac. The project uses a synchronized source folder
 
 The deployment configuration lives in `sana/Backend`, independently of the older rules file in the repository root. Deploy **these** rules: they protect the server-only quota collection. Firestore creates collections on the first write; there are no SQL tables or manual indexes to create.
 
-Run from `sana/Backend` using an authenticated Firebase CLI:
+Paste your Gemini API key into `GEMINI_API_KEY` at the top of `Backend/functions/index.js`. Then run from `sana/Backend` using an authenticated Firebase CLI:
 
 ```sh
 firebase use --add
 cd functions
 npm install
 cd ..
-firebase functions:secrets:set GEMINI_API_KEY
 firebase deploy --only functions:generateRevisionPlan,firestore:rules
 ```
 
-Choose the same Firebase project as `GoogleService-Info.plist`. Cloud Functions deployment requires a billing-enabled project and access to the Gemini API. The callable function uses the default `us-central1` region, matching the Swift client. The API key is stored in Secret Manager, never in the iOS bundle or Firestore. To change the Gemini model, update the endpoint in `Backend/functions/index.js` and redeploy. Provider API reference: https://ai.google.dev/api/generate-content
+Choose the same Firebase project as `GoogleService-Info.plist`. Cloud Functions deployment requires a billing-enabled project and access to the Gemini API. The callable function uses the default `us-central1` region, matching the Swift client. The API key is hardcoded in the server function source; keep that source private. It is not included in the iOS bundle or Firestore. To change the Gemini model, update the endpoint in `Backend/functions/index.js` and redeploy. Provider API reference: https://ai.google.dev/api/generate-content
 
 Data paths:
 

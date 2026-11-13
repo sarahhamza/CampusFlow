@@ -1,0 +1,25 @@
+rules_version = '2';
+
+// Chaque utilisateur ne peut lire et écrire que ses propres données
+// (users/{uid} et tout ce qu'il contient : tasks, courses).
+// À publier depuis la console Firebase > Firestore > Règles,
+// ou avec : firebase deploy --only firestore:rules
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    match /users/{userId} {
+      allow read, write: if request.auth != null
+                         && request.auth.uid == userId;
+
+      match /{document=**} {
+        allow read, write: if request.auth != null
+                           && request.auth.uid == userId;
+      }
+    }
+
+    // Tout le reste est interdit
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

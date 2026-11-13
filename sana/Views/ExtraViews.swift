@@ -51,7 +51,7 @@ struct CourseListView: View {
                 }
             }
         }
-        .navigationTitle("courses")
+        .screenTitle("courses")
         .toolbar {
             Button {
                 showAdd = true
@@ -99,7 +99,7 @@ struct CourseDetailView: View {
                 }
             }
         }
-        .navigationTitle("course_detail")
+        .screenTitle("course_detail")
         .sheet(isPresented: $editing) {
             NavigationStack {
                 CourseFormView(course: current)
@@ -163,7 +163,7 @@ struct CourseFormView: View {
                 ProgressView()
             }
         }
-        .navigationTitle("course_form")
+        .screenTitle("course_form")
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
                 Button("cancel") {
@@ -289,7 +289,7 @@ struct FocusView: View {
         }
         .frame(maxWidth: .infinity)
         .padding()
-        .navigationTitle("focus")
+        .screenTitle("focus")
         .onReceive(ticker) { _ in
             guard running, let endDate else { return }
 
@@ -397,7 +397,7 @@ struct WeatherView: View {
             maxHeight: .infinity
         )
         .animation(.easeInOut(duration: 0.3), value: weather.snapshot?.current.weather_code)
-        .navigationTitle("weather")
+        .screenTitle("weather")
     }
 
     @ViewBuilder
@@ -472,7 +472,7 @@ struct ProfileView: View {
                 }
             }
         }
-        .navigationTitle("profile")
+        .screenTitle("profile")
     }
 }
 
@@ -558,7 +558,7 @@ struct SettingsView: View {
             }
         }
         .animation(.easeInOut(duration: 0.25), value: remindersEnabled)
-        .navigationTitle("settings")
+        .screenTitle("settings")
         .task {
             await notifications.refreshAuthorization()
         }
@@ -614,6 +614,6 @@ struct AboutView: View {
             .padding(24)
             .frame(maxWidth: .infinity)
         }
-        .navigationTitle("about")
+        .screenTitle("about")
     }
 }

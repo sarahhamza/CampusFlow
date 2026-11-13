@@ -34,7 +34,7 @@ struct RootView: View {
             value: auth.user?.uid
         )
         .alert(
-            "notice",
+            tr("notice"),
             isPresented: Binding(
                 get: { auth.message != nil },
                 set: {
@@ -42,7 +42,7 @@ struct RootView: View {
                 }
             )
         ) {
-            Button("ok", role: .cancel) {
+            Button(tr("ok"), role: .cancel) {
                 auth.message = nil
             }
         } message: {
@@ -194,7 +194,7 @@ struct LoginView: View {
         }
         .animation(.easeInOut(duration: 0.25), value: emailError)
         .animation(.easeInOut(duration: 0.25), value: passwordError)
-        .navigationTitle("login")
+        .screenTitle("login")
     }
 }
 
@@ -293,7 +293,7 @@ struct RegisterView: View {
         .animation(.easeInOut(duration: 0.25), value: emailError)
         .animation(.easeInOut(duration: 0.25), value: passwordError)
         .animation(.easeInOut(duration: 0.25), value: confirmationError)
-        .navigationTitle("register")
+        .screenTitle("register")
     }
 }
 
@@ -337,6 +337,6 @@ struct ResetPasswordView: View {
             }
         }
         .animation(.easeInOut(duration: 0.25), value: emailError)
-        .navigationTitle("forgot_password")
+        .screenTitle("forgot_password")
     }
 }

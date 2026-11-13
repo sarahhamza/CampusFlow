@@ -10,46 +10,57 @@ import SwiftUI
 struct MainTabs: View {
 
     @EnvironmentObject var store: StudyStore
+    @EnvironmentObject var preferences: Preferences
+    @State private var selection = 0
     @StateObject private var weather = WeatherService()
     @StateObject private var location = LocationService()
 
     var body: some View {
-        TabView {
+        TabView(selection: $selection) {
             NavigationStack {
                 DashboardView()
             }
             .tabItem {
-                Label("home", systemImage: "house")
+                Label(tr("home"), systemImage: "house")
             }
+            .tag(0)
 
             NavigationStack {
                 TaskListView()
             }
             .tabItem {
-                Label("tasks", systemImage: "checklist")
+                Label(tr("tasks"), systemImage: "checklist")
             }
+            .tag(1)
 
             NavigationStack {
                 CourseListView()
             }
             .tabItem {
-                Label("courses", systemImage: "books.vertical")
+                Label(tr("courses"), systemImage: "books.vertical")
             }
+            .tag(2)
 
             NavigationStack {
                 FocusView()
             }
             .tabItem {
-                Label("focus", systemImage: "timer")
+                Label(tr("focus"), systemImage: "timer")
             }
+            .tag(3)
 
             NavigationStack {
                 ProfileView()
             }
             .tabItem {
-                Label("profile", systemImage: "person.crop.circle")
+                Label(tr("profile"), systemImage: "person.crop.circle")
             }
+            .tag(4)
         }
+        // Reconstruit les onglets quand la langue change : la barre d'onglets
+        // et les titres (UIKit) reprennent alors la bonne langue et le bon sens
+        // d'écriture (le sens RTL ne « collait » pas sur l'onglet Profil).
+        .id(preferences.language)
         .overlay(alignment: .top) {
             if let error = store.error {
                 ErrorToast(message: error) {
@@ -223,7 +234,7 @@ struct DashboardView: View {
             }
             .padding()
         }
-        .navigationTitle("dashboard")
+        .screenTitle("dashboard")
     }
 }
 
@@ -356,7 +367,7 @@ struct TaskListView: View {
                 .listStyle(.plain)
             }
         }
-        .navigationTitle("tasks")
+        .screenTitle("tasks")
         .toolbar {
             Button {
                 showAdd = true
@@ -441,7 +452,7 @@ struct TaskDetailView: View {
                 }
             }
         }
-        .navigationTitle("task_detail")
+        .screenTitle("task_detail")
         .sheet(isPresented: $editing) {
             NavigationStack {
                 TaskFormView(task: current)
@@ -506,7 +517,7 @@ struct TaskFormView: View {
                 }
             }
         }
-        .navigationTitle("task_form")
+        .screenTitle("task_form")
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
                 Button("cancel") {

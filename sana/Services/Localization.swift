@@ -3,7 +3,7 @@
 //  sana
 //
 
-import Foundation
+import SwiftUI
 
 /// Traduit une clé dans la langue choisie dans les réglages de l'app
 /// (UserDefaults "app_language"), et non dans la langue du système.
@@ -18,4 +18,13 @@ func tr(_ key: String) -> String {
     }
 
     return bundle.localizedString(forKey: key, value: key, table: nil)
+}
+
+extension View {
+    /// Titre de barre de navigation traduit dans la langue de l'app.
+    /// `navigationTitle("clé")` passe par UIKit et suit la langue du système ;
+    /// avec une String déjà traduite par `tr`, la langue choisie est respectée.
+    func screenTitle(_ key: String) -> some View {
+        navigationTitle(tr(key))
+    }
 }

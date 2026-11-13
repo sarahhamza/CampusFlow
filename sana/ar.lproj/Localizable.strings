@@ -162,3 +162,9 @@
 "gemini_quota" = "تم بلوغ حدّ طلبات Gemini. أعد المحاولة بعد قليل.";
 "gemini_blocked" = "تعذّر على Gemini معالجة هذا الطلب.";
 "gemini_bad_response" = "أعاد Gemini إجابة غير صالحة. أعد المحاولة.";
+
+"tasks_overview" = "إيقاع دراستك";
+"tasks_momentum" = "تقدّم صغير، كل يوم.";
+"tasks_progress" = "إنجاز المهام";
+"tasks_filter_empty" = "لا توجد مهام هنا بعد";
+"tasks_filter_hint" = "اختر تصفية أخرى لعرض مهامك.";

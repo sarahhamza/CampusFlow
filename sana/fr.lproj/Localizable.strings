@@ -191,3 +191,9 @@
 "gemini_quota" = "Limite de requêtes Gemini atteinte. Réessayez dans un instant.";
 "gemini_blocked" = "Gemini n'a pas pu traiter cette demande.";
 "gemini_bad_response" = "Gemini a renvoyé une réponse inutilisable. Réessayez.";
+
+"tasks_overview" = "VOTRE RYTHME";
+"tasks_momentum" = "Un peu de progrès, chaque jour.";
+"tasks_progress" = "Progression des tâches";
+"tasks_filter_empty" = "Rien ici pour le moment";
+"tasks_filter_hint" = "Choisissez un autre filtre pour voir vos tâches.";

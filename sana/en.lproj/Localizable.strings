@@ -191,3 +191,9 @@
 "gemini_quota" = "Gemini request limit reached. Please try again in a moment.";
 "gemini_blocked" = "Gemini couldn't process this request.";
 "gemini_bad_response" = "Gemini returned an unusable answer. Please try again.";
+
+"tasks_overview" = "YOUR STUDY FLOW";
+"tasks_momentum" = "A little progress, every day.";
+"tasks_progress" = "Task completion";
+"tasks_filter_empty" = "Nothing here just yet";
+"tasks_filter_hint" = "Try another filter to see your tasks.";

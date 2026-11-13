@@ -292,122 +292,106 @@ struct MetricCard: View {
     }
 }
 
-struct TaskRow: View {
-
-    let task: StudyTask
-
-    var body: some View {
-        HStack(spacing: 12) {
-            Image(
-                systemName: task.isDone
-                    ? "checkmark.circle.fill"
-                    : "circle"
-            )
-            .foregroundStyle(
-                task.isDone ? Color.green : Color.secondary
-            )
-
-            VStack(alignment: .leading, spacing: 4) {
-                Text(task.title)
-                    .font(.headline)
-                    .strikethrough(task.isDone)
-
-                Text(
-                    "\(task.course) · \(task.dueDate.formatted(date: .abbreviated, time: .omitted))"
-                )
-                .font(.caption)
-                .foregroundStyle(.secondary)
-            }
-
-            Spacer()
-
-            if task.priority == 3 {
-                Image(systemName: "exclamationmark.circle.fill")
-                    .foregroundStyle(.red)
-            }
-        }
-        .padding(16)
-        .background(
-            .regularMaterial,
-            in: RoundedRectangle(cornerRadius: 12)
-        )
-    }
-}
-
 struct TaskListView: View {
-
     @EnvironmentObject var store: StudyStore
-
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var showAdd = false
     @State private var filter = 0
 
-    var visible: [StudyTask] {
+    private var finished: Int { store.tasks.filter(\.isDone).count }
+
+    private var visible: [StudyTask] {
         store.tasks.filter {
-            filter == 0 ||
-            (filter == 1 && !$0.isDone) ||
-            (filter == 2 && $0.isDone)
+            filter == 0 || (filter == 1 && !$0.isDone) || (filter == 2 && $0.isDone)
         }
     }
 
     var body: some View {
-        VStack {
-            Picker("status", selection: $filter) {
-                Text("all").tag(0)
-                Text("pending").tag(1)
-                Text("completed").tag(2)
-            }
-            .pickerStyle(.segmented)
-            .padding(.horizontal)
+        List {
+            TaskOverviewCard(total: store.tasks.count, completed: finished, loading: store.loading)
+                .listRowInsets(EdgeInsets(top: 8, leading: 20, bottom: 16, trailing: 20))
+                .listRowSeparator(.hidden)
+                .listRowBackground(Color.clear)
+
+            TaskFilterBar(selection: $filter, counts: [store.tasks.count, store.tasks.count - finished, finished])
+                .listRowInsets(EdgeInsets(top: 0, leading: 20, bottom: 16, trailing: 20))
+                .listRowSeparator(.hidden)
+                .listRowBackground(Color.clear)
 
             if store.loading {
-                ProgressView("loading")
-                    .frame(maxHeight: .infinity)
+                ProgressView(tr("loading"))
+                    .frame(maxWidth: .infinity).padding(40)
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
             } else if visible.isEmpty {
-                ContentUnavailableView(
-                    "empty_tasks",
-                    systemImage: "tray",
-                    description: Text("empty_tasks_hint")
-                )
+                emptyState
+                    .listRowInsets(EdgeInsets(top: 12, leading: 20, bottom: 20, trailing: 20))
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
             } else {
-                List {
-                    ForEach(visible) { task in
-                        NavigationLink {
-                            TaskDetailView(task: task)
-                        } label: {
-                            TaskRow(task: task)
-                        }
+                ForEach(visible) { task in
+                    NavigationLink { TaskDetailView(task: task) } label: {
+                        TaskRow(task: task)
                     }
-                    .onDelete { offsets in
-                        let selected = offsets.map {
-                            visible[$0]
-                        }
-
-                        Task {
-                            for task in selected {
-                                await store.delete(task: task)
-                            }
-                        }
+                    .listRowInsets(EdgeInsets(top: 6, leading: 20, bottom: 6, trailing: 20))
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
+                    .transition(reduceMotion ? .opacity : .opacity.combined(with: .offset(y: 8)))
+                }
+                .onDelete { offsets in
+                    let selected = offsets.map { visible[$0] }
+                    Task {
+                        for task in selected { await store.delete(task: task) }
                     }
                 }
-                .listStyle(.plain)
             }
         }
-        .animation(.smooth, value: filter)
-        .animation(.smooth, value: visible)
+        .listStyle(.plain)
+        .scrollContentBackground(.hidden)
+        .animation(reduceMotion ? nil : .spring(response: 0.4, dampingFraction: 0.86), value: filter)
+        .animation(reduceMotion ? nil : .smooth(duration: 0.35), value: store.tasks)
         .screenTitle("tasks")
         .toolbar {
-            Button {
-                showAdd = true
-            } label: {
-                Image(systemName: "plus")
+            ToolbarItem(placement: .primaryAction) {
+                Button { showAdd = true } label: {
+                    Image(systemName: "plus")
+                        .font(.headline)
+                        .foregroundStyle(.white)
+                        .frame(width: 36, height: 36)
+                        .background(LinearGradient(colors: [.indigo, .purple], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: 12))
+                }
+                .buttonStyle(PressableStyle())
+                .accessibilityLabel(tr("add_task"))
             }
-            .accessibilityLabel("add_task")
         }
         .sheet(isPresented: $showAdd) {
-            NavigationStack {
-                TaskFormView(task: .empty)
+            NavigationStack { TaskFormView(task: .empty) }
+        }
+    }
+
+    private var emptyState: some View {
+        VStack(spacing: 16) {
+            Image(systemName: filter == 2 ? "checkmark.seal" : "tray")
+                .font(.system(size: 38, weight: .light))
+                .foregroundStyle(.indigo)
+                .frame(width: 80, height: 80)
+                .background(.indigo.opacity(0.08), in: RoundedRectangle(cornerRadius: 26))
+            Text(tr(store.tasks.isEmpty ? "empty_tasks" : "tasks_filter_empty"))
+                .font(.title3.bold())
+            Text(tr(store.tasks.isEmpty ? "empty_tasks_hint" : "tasks_filter_hint"))
+                .font(.subheadline).foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+            if store.tasks.isEmpty {
+                Button { showAdd = true } label: {
+                    Label(tr("add_task"), systemImage: "plus").font(.headline)
+                }
+                .buttonStyle(.borderedProminent).tint(.indigo)
             }
         }
+        .padding(28)
+        .frame(maxWidth: .infinity)
+        .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 24))
+        .modifier(CampusEntrance())
     }
 }
 

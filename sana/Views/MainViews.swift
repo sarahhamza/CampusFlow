@@ -11,7 +11,7 @@ struct MainTabs: View {
 
     @EnvironmentObject var store: StudyStore
     @EnvironmentObject var preferences: Preferences
-    @State private var selection = 0
+    @SceneStorage("campus_selected_tab") private var selection = 0
     @StateObject private var weather = WeatherService()
     @StateObject private var location = LocationService()
 
@@ -60,7 +60,7 @@ struct MainTabs: View {
         // Reconstruit les onglets quand la langue change : la barre d'onglets
         // et les titres (UIKit) reprennent alors la bonne langue et le bon sens
         // d'écriture (le sens RTL ne « collait » pas sur l'onglet Profil).
-        .id(preferences.language)
+        .tint(.indigo)
         .overlay(alignment: .top) {
             if let error = store.error {
                 ErrorToast(message: error) {
@@ -126,6 +126,16 @@ struct DashboardView: View {
 
                 Text("welcome_dashboard")
                     .foregroundStyle(.secondary)
+                VStack(alignment: .leading, spacing: 12) {
+                    Label(tr("focus_message"), systemImage: "sparkles").font(.headline)
+                    ProgressView(value: store.tasks.isEmpty ? 0 : Double(finished) / Double(store.tasks.count))
+                        .tint(.white)
+                    Text("\(finished) / \(store.tasks.count) \(tr("completed"))").font(.caption)
+                }
+                .padding(22)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .foregroundStyle(.white)
+                .background(LinearGradient(colors: [.indigo, .purple], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: 26))
 
                 HStack(spacing: 12) {
                     MetricCard(
@@ -194,6 +204,20 @@ struct DashboardView: View {
                         .regularMaterial,
                         in: RoundedRectangle(cornerRadius: 16)
                     )
+                }
+                .buttonStyle(.plain)
+
+                HStack(spacing: 12) {
+                    NavigationLink { CalendarView() } label: {
+                        Label(tr("calendar"), systemImage: "calendar")
+                            .frame(maxWidth: .infinity).padding()
+                            .background(.indigo.opacity(0.12), in: RoundedRectangle(cornerRadius: 18))
+                    }
+                    NavigationLink { RevisionPlanView() } label: {
+                        Label(tr("revision_plan"), systemImage: "sparkles")
+                            .frame(maxWidth: .infinity).padding()
+                            .background(.teal.opacity(0.12), in: RoundedRectangle(cornerRadius: 18))
+                    }
                 }
                 .buttonStyle(.plain)
 
@@ -301,7 +325,7 @@ struct TaskRow: View {
                     .foregroundStyle(.red)
             }
         }
-        .padding(12)
+        .padding(16)
         .background(
             .regularMaterial,
             in: RoundedRectangle(cornerRadius: 12)
@@ -367,6 +391,8 @@ struct TaskListView: View {
                 .listStyle(.plain)
             }
         }
+        .animation(.smooth, value: filter)
+        .animation(.smooth, value: visible)
         .screenTitle("tasks")
         .toolbar {
             Button {

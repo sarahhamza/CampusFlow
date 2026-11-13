@@ -17,7 +17,13 @@ struct RootView: View {
             if !auth.configured {
                 ConfigurationView()
             } else if let user = auth.user {
-                MainTabs()
+                Group {
+                    if auth.unlockedUID == user.uid {
+                        MainTabs()
+                    } else {
+                        LoginSuccessView { auth.unlockedUID = user.uid }
+                    }
+                }
                     .environmentObject(store)
                     .task(id: user.uid) {
                         store.start(uid: user.uid)
@@ -26,13 +32,12 @@ struct RootView: View {
                 WelcomeView()
                     .onAppear {
                         store.stop()
+                        auth.unlockedUID = nil
                     }
             }
         }
-        .animation(
-            .easeInOut(duration: 0.25),
-            value: auth.user?.uid
-        )
+        .onDisappear { store.stop() }
+        .animation(.easeInOut(duration: 0.25), value: auth.user?.uid)
         .alert(
             tr("notice"),
             isPresented: Binding(
@@ -65,20 +70,27 @@ struct WelcomeView: View {
 
     var body: some View {
         NavigationStack {
-            VStack(spacing: 24) {
+            ZStack {
+                AuthBackground()
+                VStack(spacing: 24) {
                 Spacer()
 
                 Image(systemName: "graduationcap.circle.fill")
                     .font(.system(size: 100))
-                    .foregroundStyle(.indigo)
-                    .symbolEffect(.pulse)
+                    .foregroundStyle(.white)
+                    
 
                 Text("CampusFlow")
                     .font(.largeTitle.bold())
 
                 Text("welcome_subtitle")
                     .multilineTextAlignment(.center)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(.white.opacity(0.8))
+
+                HStack(spacing: 20) {
+                    Label(tr("courses"), systemImage: "books.vertical")
+                    Label(tr("calendar"), systemImage: "calendar")
+                }.font(.caption.weight(.semibold))
 
                 Spacer()
 
@@ -88,6 +100,8 @@ struct WelcomeView: View {
                         .padding()
                 }
                 .buttonStyle(.borderedProminent)
+                .tint(.white)
+                .foregroundStyle(.indigo)
 
                 NavigationLink(destination: RegisterView()) {
                     Text("register")
@@ -96,7 +110,10 @@ struct WelcomeView: View {
                 }
                 .buttonStyle(.bordered)
             }
-            .padding(28)
+                .padding(28)
+                .foregroundStyle(.white)
+                .modifier(CampusEntrance())
+            }
         }
     }
 }
@@ -134,6 +151,13 @@ struct LoginView: View {
 
     var body: some View {
         Form {
+            Section {
+                VStack(alignment: .leading, spacing: 12) {
+                    Image(systemName: "lock.shield.fill").font(.system(size: 40)).foregroundStyle(.indigo)
+                    Text(tr("login")).font(.largeTitle.bold())
+                    Text(tr("welcome_subtitle")).font(.subheadline).foregroundStyle(.secondary)
+                }.padding(.vertical, 16).frame(maxWidth: .infinity, alignment: .leading)
+            }.listRowBackground(Color.clear)
             Section("login") {
                 TextField("email", text: $email)
                     .keyboardType(.emailAddress)
@@ -233,6 +257,13 @@ struct RegisterView: View {
 
     var body: some View {
         Form {
+            Section {
+                VStack(alignment: .leading, spacing: 12) {
+                    Image(systemName: "person.crop.circle.badge.plus").font(.system(size: 40)).foregroundStyle(.indigo)
+                    Text(tr("register")).font(.largeTitle.bold())
+                    Text(tr("welcome_subtitle")).font(.subheadline).foregroundStyle(.secondary)
+                }.padding(.vertical, 16).frame(maxWidth: .infinity, alignment: .leading)
+            }.listRowBackground(Color.clear)
             Section("register") {
                 TextField("name", text: $name)
                     .textContentType(.name)
@@ -310,6 +341,13 @@ struct ResetPasswordView: View {
 
     var body: some View {
         Form {
+            Section {
+                VStack(alignment: .leading, spacing: 12) {
+                    Image(systemName: "key.fill").font(.system(size: 40)).foregroundStyle(.indigo)
+                    Text(tr("forgot_password")).font(.largeTitle.bold())
+                    Text(tr("welcome_subtitle")).font(.subheadline).foregroundStyle(.secondary)
+                }.padding(.vertical, 16).frame(maxWidth: .infinity, alignment: .leading)
+            }.listRowBackground(Color.clear)
             Section("forgot_password") {
                 TextField("email", text: $email)
                     .keyboardType(.emailAddress)

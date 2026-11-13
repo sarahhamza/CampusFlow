@@ -1,4 +1,4 @@
-/* Localizable.strings (en) — CampusFlow */
+/* Localizable.strings (en) â€” CampusFlow */
 
 "welcome_subtitle" = "Organize your courses, tasks and focus sessions.";
 "login" = "Sign in";
@@ -11,7 +11,7 @@
 "forgot_password" = "Forgot password?";
 "send_reset" = "Send reset email";
 "create_account" = "Create account";
-"loading" = "Loading…";
+"loading" = "Loadingâ€¦";
 "home" = "Home";
 "tasks" = "Tasks";
 "courses" = "Courses";
@@ -77,7 +77,7 @@
 "dark" = "Dark";
 "language" = "Language";
 "settings_hint" = "Language and theme are saved on this device.";
-"version_info" = "Student mini-project · Version 1.0";
+"version_info" = "Student mini-project Â· Version 1.0";
 "about_text" = "SwiftUI, Firebase Authentication, Cloud Firestore, Open-Meteo and Google test ads.";
 "hello" = "Hello, %@";
 "student" = "student";
@@ -127,8 +127,66 @@
 "lead_60" = "1 hour before";
 "lead_1440" = "1 day before";
 "notif_title" = "Deadline approaching";
-"notif_body" = "%@ · %@";
+"notif_body" = "%@ Â· %@";
 "notif_denied" = "Notifications are turned off for this app. Enable them in Settings.";
 "notif_test" = "Send a test notification";
 "notif_test_title" = "Test notification";
 "notif_test_body" = "Reminders are working.";
+
+/* Calendar, secure sign-in and revision planning */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"calendar" = "Calendar";
+"revision_plan" = "Revision plan";
+"login_success" = "Welcome back!";
+"locker_ready" = "Your campus locker is open.";
+"continue_campus" = "Enter CampusFlow";
+"empty_events" = "No events today";
+"empty_events_hint" = "Add a study session or exam. Your task deadlines appear here too.";
+"add_event" = "Calendar event";
+"event_kind" = "Event type";
+"study" = "Study session";
+"exam" = "Exam";
+"event_start" = "Starts";
+"event_end" = "Ends";
+"event_invalid" = "Use a title of 3–200 characters and an end after the start.";
+"ai_intro" = "Build a realistic study routine with Gemini. Review it before saving.";
+"subjects_hint" = "Subjects, topics and goals…";
+"plan_days" = "Days";
+"daily_minutes" = "Minutes per day";
+"ai_consent" = "Your topics and preferences are sent to Google Gemini when you generate a plan. Avoid personal information.";
+"generate_plan" = "Generate my plan";
+"generating_plan" = "Building your study routine…";
+"your_plan" = "Your revision plan";
+"plan_day" = "Day";
+"minutes" = "min";
+"save_to_calendar" = "Add to calendar";
+"plan_saved" = "Added to calendar";
+"ai_failed" = "Unable to generate a plan. Try again later. The server needs a configured Gemini key.";
+"ai_invalid" = "The generated plan was incomplete. Try again.";

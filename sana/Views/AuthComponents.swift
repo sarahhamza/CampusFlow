@@ -13,6 +13,7 @@ import ImageIO
 struct AuthBackground: View {
 
     @State private var drift = false
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var body: some View {
         ZStack {
@@ -39,6 +40,7 @@ struct AuthBackground: View {
         }
         .ignoresSafeArea()
         .onAppear {
+            guard !reduceMotion else { return }
             withAnimation(
                 .easeInOut(duration: 6).repeatForever(autoreverses: true)
             ) {

@@ -16,6 +16,7 @@ import GoogleSignIn
 final class AuthService: ObservableObject {
 
     @Published private(set) var user: User?
+    @Published var unlockedUID: String?
     @Published var working = false
     @Published var message: String?
 
@@ -162,6 +163,7 @@ final class AuthService: ObservableObject {
     }
 
     func logout() {
+        unlockedUID = nil
         do {
             try Auth.auth().signOut()
             GIDSignIn.sharedInstance.signOut()

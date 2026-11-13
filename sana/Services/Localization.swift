@@ -26,5 +26,6 @@ extension View {
     /// avec une String déjà traduite par `tr`, la langue choisie est respectée.
     func screenTitle(_ key: String) -> some View {
         navigationTitle(tr(key))
+            .modifier(CampusScreenStyle())
     }
 }

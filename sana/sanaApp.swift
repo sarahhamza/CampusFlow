@@ -60,6 +60,8 @@ struct sanaApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .id(preferences.language)
+                .tint(.indigo)
                 .environmentObject(auth)
                 .environmentObject(preferences)
                 .environment(
@@ -77,14 +79,19 @@ struct sanaApp: App {
 
 final class Preferences: ObservableObject {
 
-    @AppStorage("app_language")
-    var language = "fr" {
-        didSet { objectWillChange.send() }
+    @Published var language: String {
+        didSet {
+            UserDefaults.standard.set(language, forKey: "app_language")
+        }
+    }
+    @Published var theme: String {
+        didSet { UserDefaults.standard.set(theme, forKey: "app_theme") }
     }
 
-    @AppStorage("app_theme")
-    var theme = "system" {
-        didSet { objectWillChange.send() }
+    init() {
+        let saved = UserDefaults.standard.string(forKey: "app_language") ?? "fr"
+        language = ["fr", "en", "ar"].contains(saved) ? saved : "fr"
+        theme = UserDefaults.standard.string(forKey: "app_theme") ?? "system"
     }
 
     var scheme: ColorScheme? {

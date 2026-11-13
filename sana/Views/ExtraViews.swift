@@ -244,6 +244,7 @@ struct CourseFormView: View {
 }
 
 struct FocusView: View {
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     @Environment(\.scenePhase) private var phase
 
@@ -294,7 +295,7 @@ struct FocusView: View {
                         .symbolEffect(
                             .pulse,
                             options: .repeating,
-                            isActive: running
+                            isActive: running && !reduceMotion
                         )
 
                     Text(
@@ -511,10 +512,12 @@ struct ProfileView: View {
     var body: some View {
         Form {
             Section("profile") {
-                Label(
-                    auth.user?.displayName ?? tr("student"),
-                    systemImage: "person.crop.circle.fill"
-                )
+                VStack(spacing: 12) {
+                    Image(systemName: "person.crop.circle.fill")
+                        .font(.system(size: 68)).foregroundStyle(.indigo.gradient)
+                    Text(auth.user?.displayName ?? tr("student")).font(.title2.bold())
+                    Text("CampusFlow").font(.caption.weight(.semibold)).foregroundStyle(.secondary)
+                }.padding(20).frame(maxWidth: .infinity)
 
                 LabeledContent(
                     "email",
@@ -523,6 +526,8 @@ struct ProfileView: View {
             }
 
             Section {
+                NavigationLink { CalendarView() } label: { Label(tr("calendar"), systemImage: "calendar") }
+                NavigationLink { RevisionPlanView() } label: { Label(tr("revision_plan"), systemImage: "sparkles") }
                 NavigationLink("settings") {
                     SettingsView()
                 }

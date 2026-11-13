@@ -1,6 +1,6 @@
-/* Localizable.strings (fr) — CampusFlow */
+/* Localizable.strings (fr) â€” CampusFlow */
 
-"welcome_subtitle" = "Organisez vos cours, vos tâches et vos sessions de concentration.";
+"welcome_subtitle" = "Organisez vos cours, vos tÃ¢ches et vos sessions de concentration.";
 "login" = "Connexion";
 "register" = "Inscription";
 "email" = "E-mail";
@@ -8,42 +8,42 @@
 "name" = "Nom";
 "confirm_password" = "Confirmer le mot de passe";
 "google_login" = "Continuer avec Google";
-"forgot_password" = "Mot de passe oublié ?";
-"send_reset" = "Envoyer l'e-mail de réinitialisation";
-"create_account" = "Créer le compte";
-"loading" = "Chargement…";
+"forgot_password" = "Mot de passe oubliÃ© ?";
+"send_reset" = "Envoyer l'e-mail de rÃ©initialisation";
+"create_account" = "CrÃ©er le compte";
+"loading" = "Chargementâ€¦";
 "home" = "Accueil";
-"tasks" = "Tâches";
+"tasks" = "TÃ¢ches";
 "courses" = "Cours";
 "focus" = "Concentration";
 "profile" = "Profil";
 "dashboard" = "Tableau de bord";
-"welcome_dashboard" = "Votre journée universitaire en un coup d'œil";
-"completed" = "Terminées";
-"upcoming_tasks" = "Prochaines tâches";
-"empty_tasks" = "Aucune tâche";
-"empty_tasks_hint" = "Ajoutez une tâche pour commencer.";
+"welcome_dashboard" = "Votre journÃ©e universitaire en un coup d'Å“il";
+"completed" = "TerminÃ©es";
+"upcoming_tasks" = "Prochaines tÃ¢ches";
+"empty_tasks" = "Aucune tÃ¢che";
+"empty_tasks_hint" = "Ajoutez une tÃ¢che pour commencer.";
 "all" = "Toutes";
 "pending" = "En cours";
 "status" = "Statut";
-"add_task" = "Ajouter une tâche";
-"details" = "Détails";
+"add_task" = "Ajouter une tÃ¢che";
+"details" = "DÃ©tails";
 "title" = "Titre";
-"course" = "Matière";
-"deadline" = "Échéance";
+"course" = "MatiÃ¨re";
+"deadline" = "Ã‰chÃ©ance";
 "description" = "Description";
-"priority" = "Priorité";
+"priority" = "PrioritÃ©";
 "low" = "Faible";
 "medium" = "Moyenne";
-"high" = "Élevée";
+"high" = "Ã‰levÃ©e";
 "save" = "Enregistrer";
 "cancel" = "Annuler";
 "delete" = "Supprimer";
 "edit" = "Modifier";
-"task_detail" = "Détails de la tâche";
-"task_form" = "Formulaire de tâche";
-"mark_pending" = "Marquer non terminée";
-"mark_completed" = "Marquer terminée";
+"task_detail" = "DÃ©tails de la tÃ¢che";
+"task_form" = "Formulaire de tÃ¢che";
+"mark_pending" = "Marquer non terminÃ©e";
+"mark_completed" = "Marquer terminÃ©e";
 "empty_courses" = "Aucun cours";
 "empty_courses_hint" = "Ajoutez votre premier cours.";
 "teacher" = "Enseignant";
@@ -56,54 +56,54 @@
 "friday" = "Vendredi";
 "saturday" = "Samedi";
 "sunday" = "Dimanche";
-"course_detail" = "Détails du cours";
+"course_detail" = "DÃ©tails du cours";
 "course_form" = "Formulaire de cours";
-"focus_message" = "Restez concentré";
+"focus_message" = "Restez concentrÃ©";
 "pause" = "Pause";
-"start" = "Démarrer";
-"reset" = "Réinitialiser";
-"ads_after_focus" = "Une publicité de test peut s'afficher à la fin.";
-"weather" = "Météo";
-"humidity" = "Humidité";
-"weather_unavailable" = "Météo indisponible";
+"start" = "DÃ©marrer";
+"reset" = "RÃ©initialiser";
+"ads_after_focus" = "Une publicitÃ© de test peut s'afficher Ã  la fin.";
+"weather" = "MÃ©tÃ©o";
+"humidity" = "HumiditÃ©";
+"weather_unavailable" = "MÃ©tÃ©o indisponible";
 "refresh" = "Actualiser";
-"settings" = "Paramètres";
-"about" = "À propos";
-"logout" = "Déconnexion";
+"settings" = "ParamÃ¨tres";
+"about" = "Ã€ propos";
+"logout" = "DÃ©connexion";
 "appearance" = "Apparence";
-"theme" = "Thème";
-"system" = "Système";
+"theme" = "ThÃ¨me";
+"system" = "SystÃ¨me";
 "light" = "Clair";
 "dark" = "Sombre";
 "language" = "Langue";
-"settings_hint" = "La langue et le thème sont conservés sur cet appareil.";
-"version_info" = "Mini-projet étudiant · Version 1.0";
-"about_text" = "SwiftUI, Firebase Authentication, Cloud Firestore, Open-Meteo et publicités Google de test.";
+"settings_hint" = "La langue et le thÃ¨me sont conservÃ©s sur cet appareil.";
+"version_info" = "Mini-projet Ã©tudiant Â· Version 1.0";
+"about_text" = "SwiftUI, Firebase Authentication, Cloud Firestore, Open-Meteo et publicitÃ©s Google de test.";
 "hello" = "Bonjour, %@";
-"student" = "étudiant";
+"student" = "Ã©tudiant";
 "notice" = "Information";
 "ok" = "OK";
 "config_required" = "Configuration Firebase requise";
-"config_hint" = "Ajoutez GoogleService-Info.plist à la cible de l'application.";
-"data_source" = "Données : Open-Meteo";
-"msg_name_short" = "Le nom doit contenir au moins 2 caractères";
+"config_hint" = "Ajoutez GoogleService-Info.plist Ã  la cible de l'application.";
+"data_source" = "DonnÃ©es : Open-Meteo";
+"msg_name_short" = "Le nom doit contenir au moins 2 caractÃ¨res";
 "msg_invalid_email" = "Adresse e-mail invalide";
-"msg_password_short" = "Mot de passe : 6 caractères minimum";
-"msg_reset_sent" = "E-mail de réinitialisation envoyé";
-"msg_firebase_missing" = "Firebase non configuré";
+"msg_password_short" = "Mot de passe : 6 caractÃ¨res minimum";
+"msg_reset_sent" = "E-mail de rÃ©initialisation envoyÃ©";
+"msg_firebase_missing" = "Firebase non configurÃ©";
 "msg_google_unavailable" = "Impossible d'ouvrir Google Sign-In";
 "msg_google_token" = "Jeton Google ID manquant";
-"msg_not_signed_in" = "Utilisateur non connecté";
-"msg_password_mismatch" = "Les mots de passe sont différents";
-"msg_title_short" = "Titre : 3 caractères minimum";
-"msg_course_required" = "Matière obligatoire";
-"msg_course_name_short" = "Nom : 2 caractères minimum";
-"weather_in" = "Météo à %@";
+"msg_not_signed_in" = "Utilisateur non connectÃ©";
+"msg_password_mismatch" = "Les mots de passe sont diffÃ©rents";
+"msg_title_short" = "Titre : 3 caractÃ¨res minimum";
+"msg_course_required" = "MatiÃ¨re obligatoire";
+"msg_course_name_short" = "Nom : 2 caractÃ¨res minimum";
+"weather_in" = "MÃ©tÃ©o Ã  %@";
 "my_position" = "Ma position";
-"location_denied" = "Localisation désactivée : la météo de Tunis est affichée. Activez-la dans les réglages.";
+"location_denied" = "Localisation dÃ©sactivÃ©e : la mÃ©tÃ©o de Tunis est affichÃ©e. Activez-la dans les rÃ©glages.";
 "use_my_location" = "Utiliser ma position";
-"open_settings" = "Ouvrir les réglages";
-"wx_clear" = "Ciel dégagé";
+"open_settings" = "Ouvrir les rÃ©glages";
+"wx_clear" = "Ciel dÃ©gagÃ©";
 "wx_partly" = "Partiellement nuageux";
 "wx_cloudy" = "Nuageux";
 "wx_fog" = "Brouillard";
@@ -116,19 +116,77 @@
 "msg_email_required" = "Saisissez votre adresse e-mail";
 "msg_password_required" = "Saisissez votre mot de passe";
 "err_bad_credentials" = "E-mail ou mot de passe incorrect";
-"err_email_in_use" = "Cette adresse e-mail est déjà utilisée";
-"err_network" = "Problème de réseau. Vérifiez votre connexion Internet.";
-"err_too_many" = "Trop de tentatives. Réessayez plus tard.";
-"err_user_disabled" = "Ce compte a été désactivé";
+"err_email_in_use" = "Cette adresse e-mail est dÃ©jÃ  utilisÃ©e";
+"err_network" = "ProblÃ¨me de rÃ©seau. VÃ©rifiez votre connexion Internet.";
+"err_too_many" = "Trop de tentatives. RÃ©essayez plus tard.";
+"err_user_disabled" = "Ce compte a Ã©tÃ© dÃ©sactivÃ©";
 "reminders" = "Rappels";
-"reminders_enabled" = "Rappels d'échéance";
-"reminder_lead" = "Me prévenir";
+"reminders_enabled" = "Rappels d'Ã©chÃ©ance";
+"reminder_lead" = "Me prÃ©venir";
 "lead_15" = "15 minutes avant";
 "lead_60" = "1 heure avant";
 "lead_1440" = "1 jour avant";
-"notif_title" = "Échéance proche";
-"notif_body" = "%@ · %@";
-"notif_denied" = "Les notifications sont désactivées pour cette app. Activez-les dans les réglages.";
+"notif_title" = "Ã‰chÃ©ance proche";
+"notif_body" = "%@ Â· %@";
+"notif_denied" = "Les notifications sont dÃ©sactivÃ©es pour cette app. Activez-les dans les rÃ©glages.";
 "notif_test" = "Envoyer une notification de test";
 "notif_test_title" = "Notification de test";
 "notif_test_body" = "Les rappels fonctionnent correctement.";
+
+/* Calendar, secure sign-in and revision planning */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"calendar" = "Calendrier";
+"revision_plan" = "Plan de révision";
+"login_success" = "Connexion réussie !";
+"locker_ready" = "Votre casier est ouvert.";
+"continue_campus" = "Entrer dans CampusFlow";
+"empty_events" = "Aucun événement ce jour";
+"empty_events_hint" = "Ajoutez une séance ou un examen. Vos échéances apparaissent aussi ici.";
+"add_event" = "Événement";
+"event_kind" = "Type d’événement";
+"study" = "Séance de travail";
+"exam" = "Examen";
+"event_start" = "Début";
+"event_end" = "Fin";
+"event_invalid" = "Utilisez un titre de 3 à 200 caractères et une fin après le début.";
+"ai_intro" = "Créez un programme réaliste avec Gemini. Vérifiez-le avant de l’enregistrer.";
+"subjects_hint" = "Matières, chapitres et objectifs…";
+"plan_days" = "Jours";
+"daily_minutes" = "Minutes par jour";
+"ai_consent" = "Vos sujets et préférences sont envoyés à Google Gemini lors de la génération. Évitez les informations personnelles.";
+"generate_plan" = "Générer mon plan";
+"generating_plan" = "Préparation de votre programme…";
+"your_plan" = "Votre plan de révision";
+"plan_day" = "Jour";
+"minutes" = "min";
+"save_to_calendar" = "Ajouter au calendrier";
+"plan_saved" = "Ajouté au calendrier";
+"ai_failed" = "Impossible de générer le plan. Réessayez plus tard. Une clé Gemini doit être configurée sur le serveur.";
+"ai_invalid" = "Le plan généré est incomplet. Réessayez.";

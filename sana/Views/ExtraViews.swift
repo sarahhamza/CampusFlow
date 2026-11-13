@@ -30,13 +30,13 @@ struct CourseListView: View {
                         NavigationLink {
                             CourseDetailView(course: course)
                         } label: {
-                            VStack(alignment: .leading) {
-                                Text(course.name).font(.headline)
-                                Text("\(course.teacher) · \(course.room)")
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
-                            }
+                            CourseCard(course: course)
                         }
+                        .listRowSeparator(.hidden)
+                        .listRowBackground(Color.clear)
+                        .listRowInsets(
+                            EdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16)
+                        )
                     }
                     .onDelete { offsets in
                         let selected = offsets.map {
@@ -49,6 +49,9 @@ struct CourseListView: View {
                         }
                     }
                 }
+                .listStyle(.plain)
+                .scrollContentBackground(.hidden)
+                .background(Color(.systemGroupedBackground))
             }
         }
         .screenTitle("courses")
@@ -64,6 +67,72 @@ struct CourseListView: View {
                 CourseFormView(course: .empty)
             }
         }
+    }
+}
+
+/// Carte d'un cours : pastille colorée, enseignant, salle et jour.
+struct CourseCard: View {
+
+    let course: StudyCourse
+
+    private static let palette: [Color] = [
+        .indigo, .purple, .teal, .orange, .pink, .blue
+    ]
+
+    private var accent: Color {
+        let seed = course.name.unicodeScalars.reduce(0) { $0 + Int($1.value) }
+        return Self.palette[seed % Self.palette.count]
+    }
+
+    private var dayKey: String {
+        ["sunday", "monday", "tuesday", "wednesday",
+         "thursday", "friday", "saturday"][(course.weekday - 1 + 7) % 7]
+    }
+
+    var body: some View {
+        HStack(spacing: 14) {
+            Text(String(course.name.prefix(1)).uppercased())
+                .font(.title3.bold())
+                .foregroundStyle(.white)
+                .frame(width: 48, height: 48)
+                .background(
+                    LinearGradient(
+                        colors: [accent, accent.opacity(0.65)],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    ),
+                    in: RoundedRectangle(cornerRadius: 14)
+                )
+
+            VStack(alignment: .leading, spacing: 6) {
+                Text(course.name)
+                    .font(.headline)
+
+                Label(course.teacher, systemImage: "person")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+
+                HStack(spacing: 8) {
+                    Label(course.room, systemImage: "door.left.hand.open")
+                    Text(tr(dayKey))
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 2)
+                        .background(accent.opacity(0.14), in: Capsule())
+                        .foregroundStyle(accent)
+                }
+                .font(.caption.weight(.medium))
+                .foregroundStyle(.secondary)
+            }
+
+            Spacer(minLength: 0)
+        }
+        .padding(14)
+        .frame(maxWidth: 700)
+        .background(
+            Color(.secondarySystemGroupedBackground),
+            in: RoundedRectangle(cornerRadius: 20)
+        )
+        .shadow(color: .black.opacity(0.06), radius: 10, y: 4)
     }
 }
 

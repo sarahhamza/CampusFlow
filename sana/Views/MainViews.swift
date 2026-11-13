@@ -213,11 +213,6 @@ struct DashboardView: View {
                             .frame(maxWidth: .infinity).padding()
                             .background(.indigo.opacity(0.12), in: RoundedRectangle(cornerRadius: 18))
                     }
-                    NavigationLink { RevisionPlanView() } label: {
-                        Label(tr("revision_plan"), systemImage: "sparkles")
-                            .frame(maxWidth: .infinity).padding()
-                            .background(.teal.opacity(0.12), in: RoundedRectangle(cornerRadius: 18))
-                    }
                 }
                 .buttonStyle(.plain)
 

@@ -1,49 +1,18 @@
-# CampusFlow setup and verification
+# CampusFlow setup
 
-## iOS
+Open `../sana.xcodeproj` on a Mac and build using Xcode. Source files in the synchronized app folder are included automatically.
 
-Open `../sana.xcodeproj` on a Mac. The project uses a synchronized source folder, so the new Swift files are included automatically. Existing FirebaseFunctions package linkage is used; no Gemini SDK or client API key is needed. Build and run on an iOS simulator/device using Xcode.
+## Firebase calendar
 
-## Firebase and Gemini
+The app uses Firebase Authentication and Cloud Firestore directly. Calendar events are stored under `users/{uid}/events/{id}` with title, course, notes, start/end timestamps, and kind (`study` or `exam`). Firestore creates the collection on the first write. Task deadlines appear in Calendar alongside events.
 
-The deployment configuration lives in `sana/Backend`, independently of the older rules file in the repository root. Deploy **these** rules: they protect the server-only quota collection. Firestore creates collections on the first write; there are no SQL tables or manual indexes to create.
+Use the same Firebase project as `GoogleService-Info.plist`. Its deployed Firestore rules must allow authenticated users to read and write their own `events` subcollection. The existing repository-root `firestore.rules` allows user-owned subcollections. Publish it through Firebase Console if needed.
 
-Paste your Gemini API key into `GEMINI_API_KEY` at the top of `Backend/functions/index.js`. Then run from `sana/Backend` using an authenticated Firebase CLI:
+## Device verification
 
-```sh
-firebase use --add
-cd functions
-npm install
-cd ..
-firebase deploy --only functions:generateRevisionPlan,firestore:rules
-```
+- Sign in and verify the locker screen, then continue to the dashboard.
+- Switch Arabic, French and English in Profile settings and verify labels and layout direction.
+- Add, edit and delete calendar events; verify persistence after relaunch.
+- Review light/dark mode, large text and Reduce Motion.
 
-Choose the same Firebase project as `GoogleService-Info.plist`. Cloud Functions deployment requires a billing-enabled project and access to the Gemini API. The callable function uses the default `us-central1` region, matching the Swift client. The API key is hardcoded in the server function source; keep that source private. It is not included in the iOS bundle or Firestore. To change the Gemini model, update the endpoint in `Backend/functions/index.js` and redeploy. Provider API reference: https://ai.google.dev/api/generate-content
-
-Data paths:
-
-- `users/{uid}/tasks/{id}`: existing tasks.
-- `users/{uid}/courses/{id}`: existing courses.
-- `users/{uid}/events/{id}`: title, course, notes, start/end timestamps, and kind (`study`, `exam`, `revision`).
-- `users/{uid}/private/revisionQuota`: server-only daily and request-frequency limits.
-
-Calendar includes task deadlines and events crossing midnight. Events support creation, editing, and confirmed deletion. Revision plans are generated only after the user presses Generate, with a disclosure explaining what is sent. Plans are reviewed before an atomic calendar save. Sessions begin at 09:00 (or the current time for today), include ten-minute gaps, and move past already loaded events. They can be edited in Calendar afterward. There is no cross-device scheduling lock; simultaneous calendar edits can still overlap.
-
-## Checks
-
-```sh
-node --check Backend/functions/index.js
-node --test Backend/functions/validation.test.js
-```
-
-These cover request limits, daily budgets, invalid generated data, ordering and unique session IDs. Live Firebase/Gemini and Firestore emulator tests require deployed services/dependencies and credentials and have not been run here. No Xcode or Swift compiler is available in the Windows workspace, so an iOS build and visual review remain required.
-
-Device acceptance checks:
-
-1. Sign in with email and Google; verify locker unlock and Continue. Sign out and sign back in.
-2. From Profile → Settings switch Arabic → French → English → Arabic. Confirm tab direction, navigation buttons, labels, dates, and persisted selection after relaunch.
-3. Add/edit/delete an event; inspect it after relaunch and on another device using the same account. Confirm another account cannot read it.
-4. Generate French, English and Arabic plans; test no key, offline, quota limit, then save a plan and check calendar sessions. Double tapping Save must not duplicate sessions.
-5. Review light/dark mode, large text, VoiceOver and Reduce Motion on all screens.
-
-Calendar events currently do not schedule push/local reminders; the existing task deadline reminder feature remains available in Settings.
+An iOS build and visual verification require Xcode on a Mac and have not been run in this Windows workspace. Calendar events do not schedule reminders; task deadline reminders remain available in Settings.

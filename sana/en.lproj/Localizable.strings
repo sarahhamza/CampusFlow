@@ -133,7 +133,7 @@
 "notif_test_title" = "Test notification";
 "notif_test_body" = "Reminders are working.";
 
-/* Calendar, secure sign-in and revision planning */
+/* Calendar and secure sign-in */
 
 
 
@@ -163,7 +163,6 @@
 
 
 "calendar" = "Calendar";
-"revision_plan" = "Revision plan";
 "login_success" = "Welcome back!";
 "locker_ready" = "Your campus locker is open.";
 "continue_campus" = "Enter CampusFlow";
@@ -176,17 +175,3 @@
 "event_start" = "Starts";
 "event_end" = "Ends";
 "event_invalid" = "Use a title of 3–200 characters and an end after the start.";
-"ai_intro" = "Build a realistic study routine with Gemini. Review it before saving.";
-"subjects_hint" = "Subjects, topics and goals…";
-"plan_days" = "Days";
-"daily_minutes" = "Minutes per day";
-"ai_consent" = "Your topics and preferences are sent to Google Gemini when you generate a plan. Avoid personal information.";
-"generate_plan" = "Generate my plan";
-"generating_plan" = "Building your study routine…";
-"your_plan" = "Your revision plan";
-"plan_day" = "Day";
-"minutes" = "min";
-"save_to_calendar" = "Add to calendar";
-"plan_saved" = "Added to calendar";
-"ai_failed" = "Unable to generate a plan. Try again later. The server needs a configured Gemini key.";
-"ai_invalid" = "The generated plan was incomplete. Try again.";

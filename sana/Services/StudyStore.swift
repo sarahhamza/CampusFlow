@@ -219,28 +219,4 @@ extension StudyStore {
             return true
         } catch { self.error = error.localizedDescription; return false }
     }
-
-    func save(plan: RevisionPlan, starting date: Date) async -> Bool {
-        guard let root else { error = tr("msg_not_signed_in"); return false }
-        let batch = Firestore.firestore().batch()
-        var offsets: [Int: Int] = [:]
-        for session in plan.sessions {
-            guard let day = Calendar.current.date(byAdding: .day, value: session.day - 1, to: date),
-                  let morning = Calendar.current.date(bySettingHour: 9, minute: 0, second: 0, of: day) else { continue }
-            let anchor = Calendar.current.isDateInToday(morning) ? max(morning, Date.now.addingTimeInterval(60)) : morning
-            var start = anchor.addingTimeInterval(Double(offsets[session.day, default: 0]) * 60)
-            for existing in events.sorted(by: { $0.start < $1.start }) {
-                if start < existing.end && start.addingTimeInterval(Double(session.minutes) * 60) > existing.start {
-                    start = existing.end.addingTimeInterval(600)
-                }
-            }
-            offsets[session.day] = Int(start.timeIntervalSince(anchor) / 60) + session.minutes + 10
-            let event = CalendarEvent(id: "revision-\(session.id)", title: session.title,
-                course: session.course, notes: session.instructions, start: start,
-                end: start.addingTimeInterval(Double(session.minutes) * 60), kind: "revision")
-            batch.setData(event.document, forDocument: root.collection("events").document(event.id))
-        }
-        do { try await batch.commit(); return true }
-        catch { self.error = error.localizedDescription; return false }
-    }
 }

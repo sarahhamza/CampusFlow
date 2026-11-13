@@ -133,7 +133,7 @@
 "notif_test_title" = "Notification de test";
 "notif_test_body" = "Les rappels fonctionnent correctement.";
 
-/* Calendar, secure sign-in and revision planning */
+/* Calendar and secure sign-in */
 
 
 
@@ -163,7 +163,6 @@
 
 
 "calendar" = "Calendrier";
-"revision_plan" = "Plan de révision";
 "login_success" = "Connexion réussie !";
 "locker_ready" = "Votre casier est ouvert.";
 "continue_campus" = "Entrer dans CampusFlow";
@@ -176,17 +175,3 @@
 "event_start" = "Début";
 "event_end" = "Fin";
 "event_invalid" = "Utilisez un titre de 3 à 200 caractères et une fin après le début.";
-"ai_intro" = "Créez un programme réaliste avec Gemini. Vérifiez-le avant de l’enregistrer.";
-"subjects_hint" = "Matières, chapitres et objectifs…";
-"plan_days" = "Jours";
-"daily_minutes" = "Minutes par jour";
-"ai_consent" = "Vos sujets et préférences sont envoyés à Google Gemini lors de la génération. Évitez les informations personnelles.";
-"generate_plan" = "Générer mon plan";
-"generating_plan" = "Préparation de votre programme…";
-"your_plan" = "Votre plan de révision";
-"plan_day" = "Jour";
-"minutes" = "min";
-"save_to_calendar" = "Ajouter au calendrier";
-"plan_saved" = "Ajouté au calendrier";
-"ai_failed" = "Impossible de générer le plan. Réessayez plus tard. Une clé Gemini doit être configurée sur le serveur.";
-"ai_invalid" = "Le plan généré est incomplet. Réessayez.";

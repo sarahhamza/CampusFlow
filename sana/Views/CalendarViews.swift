@@ -68,7 +68,6 @@ struct EventFormView: View {
                 Picker(tr("event_kind"), selection: $event.kind) {
                     Text(tr("study")).tag("study")
                     Text(tr("exam")).tag("exam")
-                    Text(tr("revision_plan")).tag("revision")
                 }
                 DatePicker(tr("event_start"), selection: $event.start)
                 DatePicker(tr("event_end"), selection: $event.end)
@@ -89,6 +88,9 @@ struct EventFormView: View {
                 }
                 if saving { ProgressView() }
             }.disabled(saving)
+        }
+        .onAppear {
+            if !["study", "exam"].contains(event.kind) { event.kind = "study" }
         }
         .screenTitle("add_event")
         .toolbar { Button(tr("cancel")) { dismiss() }.disabled(saving) }

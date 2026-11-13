@@ -527,7 +527,6 @@ struct ProfileView: View {
 
             Section {
                 NavigationLink { CalendarView() } label: { Label(tr("calendar"), systemImage: "calendar") }
-                NavigationLink { RevisionPlanView() } label: { Label(tr("revision_plan"), systemImage: "sparkles") }
                 NavigationLink("settings") {
                     SettingsView()
                 }

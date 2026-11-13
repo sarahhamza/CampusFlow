@@ -14,17 +14,3 @@ struct CalendarEvent: Identifiable, Hashable {
          "end": end, "kind": kind]
     }
 }
-
-struct RevisionSession: Identifiable, Decodable {
-    let id: String
-    let title: String
-    let course: String
-    let day: Int
-    let minutes: Int
-    let instructions: String
-}
-
-struct RevisionPlan: Decodable {
-    let summary: String
-    let sessions: [RevisionSession]
-}
